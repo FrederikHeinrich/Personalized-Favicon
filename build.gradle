@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'net.kyori.blossom' version  '1.3.1'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'io.freefair.lombok' version '8.1.0'
+}
+
+group = 'io.freddi.personalizedfavicon'
+version = '3.0-SNAPSHOT'
+
+defaultTasks 'shadowJar'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io'
+    }
+    maven {
+        name = 'papermc'
+        url = 'https://repo.papermc.io/repository/maven-public/'
+    }
+    maven { url = "https://repo.papermc.io/repository/maven-public/" }
+    maven { url = "https://hub.spigotmc.org/nexus/" }
+    maven {url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"}
+}
+
+dependencies {
+    //Velocity
+    compileOnly 'com.velocitypowered:velocity-api:3.1.1'
+    annotationProcessor 'com.velocitypowered:velocity-api:3.1.1'
+
+    //Bungeecord
+    compileOnly 'net.md-5:bungeecord-api:1.20-R0.1-SNAPSHOT'
+
+    //MongoDB
+    implementation 'org.mongodb:mongodb-driver-sync:4.10.1'
+    implementation 'dev.morphia.morphia:morphia-core:2.3.5'
+}
+
+blossom {
+    replaceToken("@version@", version)
+}
+
+configurations {
+    shadow
+}
+
+processResources {
+    def props = [version: version]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    outputs.upToDateWhen { false }
+    filesMatching('plugin.yml'){
+        expand props
+    }
+    filesMatching('bungee.yml'){
+        expand props
+    }
+    filesMatching('paper-plugin.yml'){
+        expand props
+    }
+}
