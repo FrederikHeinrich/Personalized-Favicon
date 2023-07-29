@@ -2,13 +2,17 @@ package io.freddi.personalizedfavicon.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.freddi.personalizedfavicon.entities.PersonalizedFavicon;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import org.bson.types.Binary;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -21,6 +25,9 @@ import java.util.Collections;
 @Accessors(fluent = true)
 public class Config {
 
+    private static String configPath = "plugins/PersonalizedFavicon/config.json";
+
+    public String editorBackend = "https://configs.freddi.io/personalizedfavicon";
 
     @Getter
     private static Config instance = Config.load();
@@ -47,42 +54,46 @@ public class Config {
                     .build());
         }
     };
-
-
-    public Config(String file) {
-        log.info("Created new config");
-        try (FileWriter writer = new FileWriter(file)) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            gson.toJson(this, writer);
-        } catch (Exception e) {
-            log.error("Failed to create config at " + file);
-        }
+    public Component editor(){
+        //TODO: Open editor
+        return Component.text("§cNot implemented yet", TextColor.color(0xFF0000));
     }
-
-    public static Config load() {
-        new File("plugins/PersonalizedFavicon/config.json").getParentFile().mkdirs();
-        try (FileReader reader = new FileReader("plugins/PersonalizedFavicon/config.json")) {
+    public Component download(String key){
+        return Component.text("§cNot implemented yet", TextColor.color(0xFF0000));
+    }
+    private static Config load() {
+        new File("plugins/PersonalizedFavicon").mkdir();
+        try (FileReader reader = new FileReader(configPath)) {
             //Read JSON file
             Gson gson = new Gson();
-            Config config = gson.fromJson(reader, Config.class);
+            instance = gson.fromJson(reader, Config.class);
             log.info("Loaded config");
-            return config;
+            if(instance.mongoDBConnection.use)
+                new MongoConnection(
+                        instance.mongoDBConnection.databaseName
+                );
         } catch (Exception e) {
-            log.error("Failed to load config");
-            return new Config("plugins/PersonalizedFavicon/config.json");
+            log.error("Failed to load config: " + e.getMessage());
+            e.printStackTrace();
+            instance = new Config();
         }
+        save();
+        return instance;
     }
 
-    public static void save(){
-        try (FileWriter writer = new FileWriter("plugins/PersonalizedFavicon/config.json")) {
+    private static void save(){
+        try (FileWriter writer = new FileWriter(configPath)) {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             gson.toJson(instance, writer);
         } catch (Exception e) {
             log.error("Failed to save config");
         }
     }
-    public void reload() {
+    public Component reload() {
+        if(MongoConnection.instance != null)
+            MongoConnection.instance.close();
         instance = Config.load();
+        return Component.text("§aReloaded config");
     }
 
 
@@ -99,11 +110,9 @@ public class Config {
     @Accessors(fluent = true)
     public static class MongoDBConnection {
         private boolean use = false;
-        private String uri = "mongouri";
         private String databaseName = "personalized_favicon";
         private boolean cache = true;
-        private int cacheSize = 100;
-        private int cacheTimeout = 60; // in Seconds
+        private int cacheTime = 100; // Seconds
 
     }
 
