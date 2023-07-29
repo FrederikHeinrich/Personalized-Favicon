@@ -1,31 +1,33 @@
 package io.freddi.personalizedfavicon.velocity;
 
 import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.player.ServerConnectedEvent;
 import com.velocitypowered.api.event.player.ServerPreConnectEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyPingEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import com.velocitypowered.api.proxy.server.ServerPing;
 import com.velocitypowered.api.util.Favicon;
 import io.freddi.personalizedfavicon.entities.PersonalizedFavicon;
 import io.freddi.personalizedfavicon.utils.Config;
+import io.freddi.personalizedfavicon.utils.Messages;
 import org.slf4j.Logger;
 
 import javax.inject.Inject;
 import java.nio.file.Path;
-import java.util.Base64;
 
 @Plugin(id = "personalizedfavicon", name = "PersonalizedFavicon", version = "@version@", description = "PersonalizedFavicon plugin for Velocity", authors = {"Freddi"})
 public class VelocityPlugin {
 
     private final Metrics.Factory metricsFactory;
+    private final ProxyServer proxyServer;
     @Inject
-    public VelocityPlugin(ProxyServer proxyServer, Logger logger, @DataDirectory Path dataDirector, Metrics.Factory metricsFactory) {
+    public VelocityPlugin(ProxyServer proxyServer, Logger logger, @DataDirectory
+    Path dataDirector, Metrics.Factory metricsFactory) {
+        this.proxyServer = proxyServer;
         logger.info("Starting PersonalizedFavicon for Velocity"); this.metricsFactory = metricsFactory;
-        assert Config.instance() != null;
+        Config.instance().reload();
+        Messages.instance().reload();
     }
 
     @Subscribe
@@ -33,6 +35,7 @@ public class VelocityPlugin {
         System.out.println("Starting PersonalizedFavicon for Velocity");
         Metrics metrics = metricsFactory.make(this, 19279);
         metrics.addCustomChart(new Metrics.SingleLineChart("stored_favicons", PersonalizedFavicon::count));
+        proxyServer.getCommandManager().register(VelocityCommand.command(proxyServer));
     }
 
     @Subscribe
