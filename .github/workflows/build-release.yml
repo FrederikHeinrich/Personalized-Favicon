@@ -25,9 +25,10 @@ jobs:
         run: ./gradlew clean shadowJar
 
       - name: Release
-        uses: docker://antonyurchenko/git-release:latest
+        uses: anton-yurchenko/git-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_NAME_PREFIX: "Release: "
+          UNRELEASED: "update"
         with:
           args: build/libs/*.jar
