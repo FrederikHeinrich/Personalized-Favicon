@@ -29,6 +29,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UNRELEASED: "update"
-          UNRELEASED_TAG: latest
         with:
           args: build/libs/PersonalizedFavicon-*-*.jar
