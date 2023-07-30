@@ -12,6 +12,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup Java 16 Zulu
+        uses: actions/setup-java@v2
+        with:
+          java-version: "16"
+          distribution: "zulu"
+
+      - name: Add Gralew permissions
+        run: chmod +x gradlew
+
+      - name: Build
+        run: ./gradlew clean shadowJar
+
       - name: Release
         uses: docker://antonyurchenko/git-release:latest
         env:
@@ -19,4 +31,4 @@ jobs:
           UNRELEASED: "update"
           UNRELEASED_TAG: latest
         with:
-          args: linux-amd64
+          args: build/libs/*.jar
