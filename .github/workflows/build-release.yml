@@ -1,0 +1,46 @@
+name: Build and Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-release:
+    name: Build and Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          java-version: '16'
+
+      - name: Read Version from version.properties
+        id: version
+        run: echo "::set-output name=version::$(cat version.properties | grep -oP 'version=\K(.*)')"
+      - name: Read Changelog
+        id: changelog
+        run: echo "::set-output name=changelog::$(awk '/^# /{if(v)exit}; NR==1{v=1}; {print}' CHANGELOG.md)" # Extrahiert Einträge für die aktuelle Version aus der CHANGELOG.md-Datei
+
+      - name: Get Last Commit SHA
+        id: commit_sha
+        run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)" # Extrahiert den SHA-1-Hash des letzten Commits
+
+      - name: Build with Gradle
+        run: ./gradlew clean shadowJar
+
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            build/libs/*.jar # Fügen Sie hier die Dateien hinzu, die Sie in den Release hochladen möchten.
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: Release ${{ steps.version.outputs.version }}-${{ steps.commit_sha.outputs.commit_sha }} # Verwendet Versionsnummer und Commit-SHA für den Release-Namen
+          body: ${{ steps.changelog.outputs.changelog }}
