@@ -15,7 +15,7 @@
 | `/pf load <key>` | `personalizedfavicon.command.edit` | Loads a Personalized Favicon from the Editor |
 
 
-## [3.0.0]
+## [3.0.0] - 2023-07-30
 ### Added
 - BungeeCord & Velocity Support
 - MiniMessage Support
