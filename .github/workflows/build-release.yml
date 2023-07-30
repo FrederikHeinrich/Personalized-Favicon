@@ -1,12 +1,12 @@
-name: Build and Release
+name: Release
 on:
   push:
-    branches:
-      - master
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
   build-and-release:
-    name: Build and Release
+    name: Release
     runs-on: ubuntu-latest
 
     steps:
@@ -19,39 +19,9 @@ jobs:
           java-version: '16'
           distribution: 'zulu'
 
-      - name: Read Version from version.properties
-        id: version
-        run: echo "::set-output name=version::$(cat version.properties | grep -oP 'version=\K(.*)')"
-
-      - name: Auslesen von CHANGELOG.md
-        run: |
-          # Verwenden von awk, um den Inhalt von "## AKTUELLE VERSION" bis zur nächsten "##"-Überschrift auszulesen
-          awk '/^## ${{ steps.version.outputs.version }}$/,/^##/{if (!/^##$/ && NR>1) {print}}' CHANGELOG.md
-        # Die Ausgabe der Auslesung wird als "Ausgabe" des Schritts gespeichert.
-        # Sie können die Ausgabe später in anderen Schritten weiterverwenden.
-        id: read_changelog_output
-
-      - name: Get Last Commit SHA
-        id: commit_sha
-        run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)"
-
-      - name: Set Gradle Wrapper Permissions
-        run: chmod +x ./gradlew
-
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-
-      - name: Run build with Gradle Wrapper
-        run: ./gradlew clean shadowJar
-      - name: Create GitHub release
-        uses: docker://antonyurchenko/git-release:latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload Jar
-        uses: softprops/action-gh-release@v1
+      - name: Release
+        uses: docker://antonyurchenko/git-release:v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: |
-            build/libs/PersonalizedFavicon-*.jar
-          tag_name: ${{ steps.version.outputs.version }}
+          args: build/libs/*.jar
