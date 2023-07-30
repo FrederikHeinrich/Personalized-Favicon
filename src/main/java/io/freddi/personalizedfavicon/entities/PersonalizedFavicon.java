@@ -37,9 +37,9 @@ public class PersonalizedFavicon {
 
     private static final ArrayList<CachedPersonalizedFavicon> cache = new ArrayList<>();
 
+    @Getter
     @Accessors(fluent = true)
     public static class CachedPersonalizedFavicon {
-        @Getter
         private final PersonalizedFavicon favicon;
         private Long time = System.currentTimeMillis();
 
