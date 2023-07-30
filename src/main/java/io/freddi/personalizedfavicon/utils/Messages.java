@@ -22,8 +22,6 @@ public class Messages {
     private static Messages instance = load();
 
     private static Messages load(){
-        HashMap<String, Messages> translations = new HashMap<>();
-
         try (FileReader reader = new FileReader("plugins/PersonalizedFavicon/messages.json")) {
             Gson gson = new Gson();
             return gson.fromJson(reader, Messages.class);
@@ -54,5 +52,7 @@ public class Messages {
     private String prefix = "§8[§6PersonalizedFavicon§8] §7";
 
     private String noPermission = prefix + "§cYou don't have permission to do that";
+
+    private String updateAvailable = prefix + "§aUpdate available: §7%version%";
 
 }
