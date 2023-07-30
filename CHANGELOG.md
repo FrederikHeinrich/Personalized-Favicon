@@ -2,8 +2,6 @@
 
 ## [3.0.0] - 30.07.2023
 
-_First release._
-
 ### Features
 * BungeeCord & Velocity Support
 * MiniMessage Support
