@@ -109,7 +109,6 @@ public class PersonalizedFavicon {
             String value = switch (replacer.value()) {
                 case NAME -> name;
                 case UUID -> uuid;
-                default -> "";
             };
             imageUrl = imageUrl.replace(replacer.key(), value);
         }
