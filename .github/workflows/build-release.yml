@@ -29,7 +29,8 @@ jobs:
       - name: Get Last Commit SHA
         id: commit_sha
         run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)" # Extrahiert den SHA-1-Hash des letzten Commits
-
+      - name: Set Gradle Wrapper Permissions
+        run: chmod +x ./gradlew
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
       - name: Run build with Gradle Wrapper
