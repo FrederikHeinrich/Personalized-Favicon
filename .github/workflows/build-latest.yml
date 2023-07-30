@@ -28,7 +28,7 @@ jobs:
         uses: docker://antonyurchenko/git-release:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          UNRELEASED: "update"
+          UNRELEASED: "delete"
           UNRELEASED_TAG: latest
         with:
           args: build/libs/PersonalizedFavicon-*-*.jar
