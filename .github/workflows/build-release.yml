@@ -14,15 +14,13 @@ jobs:
         uses: actions/checkout@v3
       - name: Prepare Java 16 from Zulu
         uses: docker://azul/zulu-openjdk:16
-      - name: Prepare Gradle
-        uses: docker://gradle:jdk16
       - name: Prepare Version Tags
         run: |
             echo "MAJOR=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1}')" >> $GITHUB_ENV
             echo "MINOR=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1"."$2}')" >> $GITHUB_ENV
             echo "PATCH=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1"."$2"."$3}')" >> $GITHUB_ENV
       - name: Build
-        run: gradle clean shadowJar
+        run: ./gradlew clean shadowJar
 
 
   release:
