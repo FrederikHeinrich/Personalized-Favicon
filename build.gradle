@@ -21,8 +21,6 @@ def version = versionProps['version'] ?: 'unknown'
 
 defaultTasks 'shadowJar'
 
-
-
 repositories {
     mavenCentral()
     maven {
@@ -76,7 +74,6 @@ shadowJar{
     archiveBaseName = 'PersonalizedFavicon'
     archiveVersion = version
     archiveClassifier = getGitCommitDescription()
-
 }
 
 processResources {
