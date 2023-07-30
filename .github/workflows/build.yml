@@ -31,10 +31,5 @@ jobs:
         uses: anton-yurchenko/git-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_NAME_PREFIX: "Release: "
-          DRAFT_RELEASE: "true"
-          PRE_RELEASE: "false"
-          CHANGELOG_FILE: "CHANGELOG.md"
-          ALLOW_EMPTY_CHANGELOG: "true"
         with:
           args: build/libs/*.jar
