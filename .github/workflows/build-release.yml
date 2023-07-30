@@ -30,11 +30,11 @@ jobs:
         id: commit_sha
         run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)" # Extrahiert den SHA-1-Hash des letzten Commits
 
-      - name: Build with Gradle
-        uses: eskatos/gradle-command-action@v1
-        with:
-          args: 'clean shadowJar'
-          
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Run build with Gradle Wrapper
+        run: ./gradlew clean shadowJar
+
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
