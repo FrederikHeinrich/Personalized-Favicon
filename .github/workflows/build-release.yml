@@ -5,19 +5,39 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
-  build-and-release:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      init:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Prepare Java 16 from Zulu
+          uses: docker://azul/zulu-openjdk:16
+        - name: Prepare Gradle
+          uses: docker://gradle:jdk16
+        - name: Prepare Version Tags
+          run: |
+              echo "MAJOR=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1}')" >> $GITHUB_ENV
+              echo "MINOR=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1"."$2}')" >> $GITHUB_ENV
+              echo "PATCH=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1"."$2"."$3}')" >> $GITHUB_ENV
+        - name: Build
+          run: gradle clean shadowJar
+
+
+  release:
     name: Release
     runs-on: ubuntu-latest
-
+    needs: [build]
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          java-version: '16'
-          distribution: 'zulu'
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Prepare Version Tags
+        run: |
+          echo "MAJOR=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1}')" >> $GITHUB_ENV
+          echo "MINOR=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1"."$2}')" >> $GITHUB_ENV
+          echo "PATCH=$(echo ${GITHUB_REF/refs\/tags\//} | awk -F'.' '{print $1"."$2"."$3}')" >> $GITHUB_ENV
 
       - name: Release
         uses: docker://antonyurchenko/git-release:v5
@@ -25,3 +45,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: build/libs/*.jar
+      - name: Update Tags
+        uses: vweevers/additional-tags-action@v2
