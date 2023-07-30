@@ -1,4 +1,4 @@
-name: Latest
+name: Development Build
 
 on:
   pull_request:
@@ -31,5 +31,7 @@ jobs:
         UNRELEASED: "update"
         UNRELEASED_TAG: "dev"
         RELEASE_NAME: "Development Build"
+        DRAFT_RELEASE: "false"
+        PRE_RELEASE: "true"
       with:
         args: build/libs/*.jar
