@@ -31,4 +31,4 @@ jobs:
           UNRELEASED: "update"
           UNRELEASED_TAG: latest
         with:
-          args: build/libs/*.jar
+          args: build/libs/PersonalizedFavicon-*-*.jar
