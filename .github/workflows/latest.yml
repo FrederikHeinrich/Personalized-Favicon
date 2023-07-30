@@ -24,14 +24,12 @@ jobs:
 
     - name: Build
       run: ./gradlew clean shadowJar
-    - run: |
-       export TEXT="DEV VERSION"
-       echo "::set-env name=RELEASE_NAME::$TEXT"
     - name: Latest
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UNRELEASED: "update"
         UNRELEASED_TAG: "dev"
+        RELEASE_NAME: "Development Build"
       with:
         args: build/libs/*.jar
