@@ -29,7 +29,7 @@ public class UpdateChecker {
         System.out.println(checker.getLatestVersion());
         checker.checkForUpdates("2.0.0-aaaaaa");
     }
-    private static final String VERSION_URL = "https://api.github.com/repos/FrederikHeinrich/PersonalizedFavicon/releases/latest";
+    private static final String VERSION_URL = "https://api.github.com/repos/FrederikHeinrich/Personalized-Favicon/releases/latest";
 
     private String getLatestVersion(){
         try {
