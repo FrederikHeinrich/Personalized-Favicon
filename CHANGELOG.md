@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.0.0] - 2023-07-30
+## [3.0.0]
 
 ### Added
 - BungeeCord & Velocity Support
