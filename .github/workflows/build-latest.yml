@@ -24,11 +24,16 @@ jobs:
       - name: Build
         run: ./gradlew clean shadowJar
 
-      - name: Release
+      - name: Delete Old Release
         uses: docker://antonyurchenko/git-release:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UNRELEASED: "delete"
-          UNRELEASED_TAG: latest
+
+      - name: Release
+        uses: docker://antonyurchenko/git-release:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          UNRELEASED: "update"
         with:
           args: build/libs/PersonalizedFavicon-*-*.jar
