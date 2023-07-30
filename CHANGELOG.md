@@ -1,7 +1,6 @@
 # Changelog
 
 ## [Unreleased]
-
 ### Added
 - BungeeCord & Velocity Support
 - MiniMessage Support
