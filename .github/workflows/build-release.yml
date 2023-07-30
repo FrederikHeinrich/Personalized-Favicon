@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '16'
+          distribution: 'zulu'
 
       - name: Read Version from version.properties
         id: version
