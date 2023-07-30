@@ -8,9 +8,20 @@ plugins {
 }
 
 group = 'io.freddi.personalizedfavicon'
-version = '3.0'
+
+def versionPropsFile = file('version.properties')
+def versionProps = new Properties()
+
+if (versionPropsFile.exists()) {
+    versionProps.load(new FileInputStream(versionPropsFile))
+}
+
+// Die Versionsnummer aus der version.properties-Datei abrufen
+def version = versionProps['version'] ?: 'unknown'
 
 defaultTasks 'shadowJar'
+
+
 
 repositories {
     mavenCentral()
@@ -49,15 +60,8 @@ dependencies {
 
 }
 
-// Funktion, um den git describe Befehl auszuführen und die Ausgabe zurückzugeben
 def getGitCommitDescription() {
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        // Für Windows
-        return 'git rev-parse --short HEAD'.execute().text.trim()
-    } else {
-        // Für andere Betriebssysteme
-        return 'git describe --tags --abbrev=0'.execute().text.trim()
-    }
+    return 'git rev-parse --short HEAD'.execute().text.trim()
 }
 
 blossom {
