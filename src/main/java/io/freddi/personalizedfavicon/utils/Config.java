@@ -34,9 +34,10 @@ public class Config {
 
     private final String configVersion = "1.0";
 
-    private String siteUrl = "https://render.skinmc.net/3d.php?user=%uuid%&vr=-4&hr0&hrh=53&aa=true&headOnly=true&ratio=50";
     private DefaultFavicon defaultFavicon = new DefaultFavicon();
     private MongoDBConnection mongoDBConnection = new MongoDBConnection();
+
+    private UpdateChecker updateChecker = new UpdateChecker();
 
     private ArrayList<ImageProvider> providers = new ArrayList<>(){
         {
@@ -141,6 +142,20 @@ public class Config {
     public enum ImageProviderReplacements{
         UUID,
         NAME
+    }
+
+    @Data
+    public static class UpdateChecker {
+        private boolean enabled = true;
+        private boolean autoDownload = true;
+        private String downloadFolder = "./";
+        private UpdateCheckerNotification notification = new UpdateCheckerNotification();
+    }
+
+    @Data
+    public static class UpdateCheckerNotification {
+        boolean console = true;
+        boolean user = true;
     }
 
 }
