@@ -2,3 +2,4 @@ name: PersonalizedFavicon
 version: '${version}'
 main: io.freddi.personalizedfavicon.waterfall.WaterfallPlugin
 author: Freddi
+website: https://discord.gg/freddi
