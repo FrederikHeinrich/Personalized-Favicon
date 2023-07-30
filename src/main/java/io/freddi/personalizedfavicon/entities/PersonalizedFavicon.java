@@ -106,10 +106,7 @@ public class PersonalizedFavicon {
         Config.ImageProvider provider = Config.instance().providers().get(random.nextInt(Config.instance().providers().size()));
         String imageUrl = provider.url();
         for (Config.ImageProviderReplacer replacer : provider.replacer()) {
-            String value = switch (replacer.value()) {
-                case NAME -> name;
-                case UUID -> uuid;
-            };
+            String value = (replacer.value() == Config.ImageProviderReplacements.NAME ? name : uuid);
             imageUrl = imageUrl.replace(replacer.key(), value);
         }
         try (InputStream inputStream = new URL(imageUrl).openStream()) {
