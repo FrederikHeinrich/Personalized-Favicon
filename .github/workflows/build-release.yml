@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: |
-            build/libs/*.jar # Fügen Sie hier die Dateien hinzu, die Sie in den Release hochladen möchten.
+            build/libs/PersonalizedFavicon-*.jar
           tag_name: ${{ steps.version.outputs.version }}
           release_name: Release ${{ steps.version.outputs.version }}-${{ steps.commit_sha.outputs.commit_sha }}
           body: ${{ steps.changelog.outputs.changelog }}
