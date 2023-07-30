@@ -1,6 +1,8 @@
-# Personailzed Favicon
+# Changelog
 
-## 3.0.0
+## [3.0.0] - 30.07.2023
+
+_First release._
 
 ### Features
 * BungeeCord & Velocity Support
@@ -24,6 +26,3 @@
 |`/pf clear` | `personalizedfavicon.command.clear` | Clears the Personalized Favicon Database     |
 | `/pf edit` | `personalizedfavicon.command.edit` | Opens the Personalized Favicon editor        |
 | `/pf load <key>` | `personalizedfavicon.command.edit` | Loads a Personalized Favicon from the Editor |
-
-## NONE
-PLACEHOLDER
