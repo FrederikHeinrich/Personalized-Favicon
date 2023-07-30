@@ -22,9 +22,14 @@ jobs:
       - name: Read Version from version.properties
         id: version
         run: echo "::set-output name=version::$(cat version.properties | grep -oP 'version=\K(.*)')"
-      - name: Read Changelog
-        id: changelog
-        run: echo "::set-output name=changelog::$(awk '/^# /{if(v)exit}; NR==1{v=1}; {print}' CHANGELOG.md)"
+
+      - name: Auslesen von CHANGELOG.md
+        run: |
+          # Verwenden von awk, um den Inhalt von "## AKTUELLE VERSION" bis zur nächsten "##"-Überschrift auszulesen
+          awk '/^## ${{ steps.version.outputs.version }}$/,/^##/{if (!/^##$/ && NR>1) {print}}' CHANGELOG.md
+        # Die Ausgabe der Auslesung wird als "Ausgabe" des Schritts gespeichert.
+        # Sie können die Ausgabe später in anderen Schritten weiterverwenden.
+        id: read_changelog_output
 
       - name: Get Last Commit SHA
         id: commit_sha

@@ -1,6 +1,6 @@
 # Personailzed Favicon
 
-# 3.0.0
+## 3.0.0
 
 ### Features
 * BungeeCord & Velocity Support
@@ -25,3 +25,5 @@
 | `/pf edit` | `personalizedfavicon.command.edit` | Opens the Personalized Favicon editor        |
 | `/pf load <key>` | `personalizedfavicon.command.edit` | Loads a Personalized Favicon from the Editor |
 
+## NONE
+PLACEHOLDER
