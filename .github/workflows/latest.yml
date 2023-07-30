@@ -24,7 +24,9 @@ jobs:
 
     - name: Build
       run: ./gradlew clean shadowJar
-
+    - run: |
+       export TEXT="DEV VERSION $(date +%Y%m%d%H%M%S)"
+       echo "::set-env name=RELEASE_NAME::$TEXT"
     - name: Latest
       uses: anton-yurchenko/git-release@main
       env:
