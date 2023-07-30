@@ -25,13 +25,13 @@ jobs:
         run: ./gradlew clean shadowJar
 
       - name: Delete Old Release
-        uses: docker://antonyurchenko/git-release:latest
+        uses: anton-yurchenko/git-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UNRELEASED: "delete"
 
       - name: Release
-        uses: docker://antonyurchenko/git-release:latest
+        uses: anton-yurchenko/git-release@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           UNRELEASED: "update"
