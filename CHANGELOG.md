@@ -1,14 +1,13 @@
 # Changelog
 
-## [3.0.0] - 30.07.2023
+## [3.0.0] - 2023-07-30
 
-### Features
-* BungeeCord & Velocity Support
-* MiniMessage Support
-* MongoDB Support
-* UpdateNotifier
-* Multi-Image Provider Support (Randomized)
-* 
+### Added
+- BungeeCord & Velocity Support
+- MiniMessage Support
+- MongoDB Support
+- UpdateNotifier
+- Multi-Image Provider Support (Randomized)
 
 ### Feature Permissions
 | Permission                    | Description                                  |
