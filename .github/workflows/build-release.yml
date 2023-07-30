@@ -43,9 +43,11 @@ jobs:
 
       - name: Run build with Gradle Wrapper
         run: ./gradlew clean shadowJar
-
-      - name: Create Release
-        id: create_release
+      - name: Create GitHub release
+        uses: docker://antonyurchenko/git-release:latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Jar
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -53,5 +55,3 @@ jobs:
           files: |
             build/libs/PersonalizedFavicon-*.jar
           tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}-${{ steps.commit_sha.outputs.commit_sha }}
-          body: ${{ steps.changelog.outputs.changelog }}
