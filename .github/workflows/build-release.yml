@@ -24,15 +24,18 @@ jobs:
         run: echo "::set-output name=version::$(cat version.properties | grep -oP 'version=\K(.*)')"
       - name: Read Changelog
         id: changelog
-        run: echo "::set-output name=changelog::$(awk '/^# /{if(v)exit}; NR==1{v=1}; {print}' CHANGELOG.md)" # Extrahiert Einträge für die aktuelle Version aus der CHANGELOG.md-Datei
+        run: echo "::set-output name=changelog::$(awk '/^# /{if(v)exit}; NR==1{v=1}; {print}' CHANGELOG.md)"
 
       - name: Get Last Commit SHA
         id: commit_sha
-        run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)" # Extrahiert den SHA-1-Hash des letzten Commits
+        run: echo "::set-output name=commit_sha::$(git rev-parse --short HEAD)"
+
       - name: Set Gradle Wrapper Permissions
         run: chmod +x ./gradlew
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
+
       - name: Run build with Gradle Wrapper
         run: ./gradlew clean shadowJar
 
@@ -45,5 +48,5 @@ jobs:
           files: |
             build/libs/*.jar # Fügen Sie hier die Dateien hinzu, die Sie in den Release hochladen möchten.
           tag_name: ${{ steps.version.outputs.version }}
-          release_name: Release ${{ steps.version.outputs.version }}-${{ steps.commit_sha.outputs.commit_sha }} # Verwendet Versionsnummer und Commit-SHA für den Release-Namen
+          release_name: Release ${{ steps.version.outputs.version }}-${{ steps.commit_sha.outputs.commit_sha }}
           body: ${{ steps.changelog.outputs.changelog }}
