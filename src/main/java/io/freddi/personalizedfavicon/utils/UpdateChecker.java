@@ -63,9 +63,8 @@ public class UpdateChecker {
         latestDownloadUrl = latestRelease.assets[0].browser_download_url;
 
         latestDevRelease = Arrays.stream(releases).filter(release -> release.tag_name.equalsIgnoreCase("dev")).findFirst().orElse(null);
-        assert latestDevRelease != null;
-        latestDevBuild = latestDevRelease.target_commitish.substring(0, 7);
-        latestDevDownloadUrl = latestDevRelease.assets[0].browser_download_url;
+        latestDevBuild = (latestDevRelease == null ? "0" : latestDevRelease.target_commitish.substring(0, 7));
+        latestDevDownloadUrl = (latestDevRelease == null ? latestDownloadUrl : latestDevRelease.assets[0].browser_download_url);
 
     }
 
