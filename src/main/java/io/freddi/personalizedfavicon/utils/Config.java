@@ -75,7 +75,6 @@ public class Config {
                 );
         } catch (Exception e) {
             log.error("Failed to load config: " + e.getMessage());
-            e.printStackTrace();
             instance = new Config();
         }
         save();
