@@ -63,7 +63,7 @@ public class Config {
         return Component.text("§cNot implemented yet", TextColor.color(0xFF0000));
     }
     private static Config load() {
-        new File("plugins/PersonalizedFavicon").mkdir();
+        new File("plugins/PersonalizedFavicon").mkdirs();
         try (FileReader reader = new FileReader(configPath)) {
             //Read JSON file
             Gson gson = new Gson();
@@ -149,6 +149,7 @@ public class Config {
         private boolean enabled = true;
         private boolean autoDownload = true;
         private String downloadFolder = "./";
+        private boolean devBuilds = false;
         private UpdateCheckerNotification notification = new UpdateCheckerNotification();
     }
 
