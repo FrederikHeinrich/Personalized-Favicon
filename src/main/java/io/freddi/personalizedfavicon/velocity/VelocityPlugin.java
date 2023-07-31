@@ -49,7 +49,6 @@ public class VelocityPlugin {
     public void onServerList(ProxyPingEvent event) {
         String ip = event.getConnection().getRemoteAddress().getAddress().getHostAddress();
         PersonalizedFavicon favicon = PersonalizedFavicon.find(ip);
-        System.out.println(favicon);
         if (favicon == null) return;
         if (favicon.toImage() == null) return;
         event.setPing(event.getPing().asBuilder().favicon(Favicon.create(favicon.toImage())).build());
