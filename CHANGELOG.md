@@ -1,13 +1,6 @@
 # Changelog
 
 ## [Unreleased]
-### Added
-- UpdateNotifier
-
-### Feature Permissions
-| Permission                    | Description                                  |
-|-------------------------------|----------------------------------------------|
-| `personalizedfavicon.updates` | Notifies the user about new updates          |
 
 ### Commands
 | Command | Permission | Description                                  |
@@ -15,8 +8,19 @@
 | `/pf edit` | `personalizedfavicon.command.edit` | Opens the Personalized Favicon editor        |
 | `/pf load <key>` | `personalizedfavicon.command.edit` | Loads a Personalized Favicon from the Editor |
 
+## [3.0.1] - 2023-07-31
+
+### Added
+- UpdateNotifier
+  - for Player & Console
+### Feature Permissions
+| Permission                    | Description                                  |
+|-------------------------------|----------------------------------------------|
+| `personalizedfavicon.updates` | Notifies the user about new updates          |
+
 
 ## [3.0.0] - 2023-07-30
+
 ### Added
 - BungeeCord & Velocity Support
 - MiniMessage Support
