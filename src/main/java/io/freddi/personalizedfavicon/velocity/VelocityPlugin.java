@@ -41,6 +41,8 @@ public class VelocityPlugin {
         Metrics metrics = metricsFactory.make(this, 19279);
         metrics.addCustomChart(new Metrics.SingleLineChart("stored_favicons", PersonalizedFavicon::count));
         proxyServer.getCommandManager().register(VelocityCommand.command(proxyServer));
+
+        UpdateChecker.instance.consoleCheck();
     }
 
     @Subscribe
