@@ -29,6 +29,12 @@ The Personalized Favicon plugin allows you to customize your server's favicon an
 | `/pf reload` | `personalizedfavicon.command.reload` | Reloads the plugin configuration             |
 |`/pf clear` | `personalizedfavicon.command.clear` | Clears the Personalized Favicon Database     |
 
+## Features Permissions
+| Permission | Description                                  |
+| ---------- |----------------------------------------------|
+| `personalizedfavicon.updates` | Notifies the user about new updates          |
+
+
 
 ## Download
 
