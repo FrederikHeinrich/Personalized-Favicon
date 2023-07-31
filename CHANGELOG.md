@@ -8,6 +8,10 @@
 | `/pf edit` | `personalizedfavicon.command.edit` | Opens the Personalized Favicon editor        |
 | `/pf load <key>` | `personalizedfavicon.command.edit` | Loads a Personalized Favicon from the Editor |
 
+## [3.0.2] - 2023-08-01
+## Fixed
+- Fixed error message when creating a the Config file
+
 ## [3.0.1] - 2023-07-31
 
 ### Added
