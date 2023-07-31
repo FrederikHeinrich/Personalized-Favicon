@@ -3,11 +3,14 @@ package io.freddi.personalizedfavicon.waterfall;
 import io.freddi.personalizedfavicon.entities.PersonalizedFavicon;
 import io.freddi.personalizedfavicon.utils.Config;
 import io.freddi.personalizedfavicon.utils.Messages;
+import io.freddi.personalizedfavicon.utils.UpdateChecker;
 import lombok.Getter;
 import lombok.NonNull;
+import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.platform.bungeecord.BungeeAudiences;
 import net.md_5.bungee.api.Favicon;
 import net.md_5.bungee.api.ServerPing;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.LoginEvent;
 import net.md_5.bungee.api.event.ProxyPingEvent;
@@ -20,6 +23,7 @@ public class WaterfallPlugin extends Plugin implements Listener {
 
     @Getter
     private static BungeeAudiences adventure;
+
     @Override
     public void onEnable() {
 
@@ -27,12 +31,14 @@ public class WaterfallPlugin extends Plugin implements Listener {
         getLogger().info("Starting PersonalizedFavicon for Waterfall");
         Metrics metrics = new Metrics(this, 5495);
         metrics.addCustomChart(new Metrics.SingleLineChart("stored_favicons", PersonalizedFavicon::count));
-        //
+
         Config.instance().reload();
         Messages.instance().reload();
 
         getProxy().getPluginManager().registerCommand(this, new WaterfallCommand());
         getProxy().getPluginManager().registerListener(this, this);
+
+        UpdateChecker.instance.consoleCheck();
     }
 
     @EventHandler
@@ -54,15 +60,28 @@ public class WaterfallPlugin extends Plugin implements Listener {
         PersonalizedFavicon favicon = PersonalizedFavicon.find(uuid, username, ip);
     }
 
+
+    @EventHandler
+    public void onConnected(ServerConnectedEvent event) {
+        ProxiedPlayer player = event.getPlayer();
+        if (Config.instance().updateChecker().notification().user()) {
+            if (player.hasPermission("personalizedfavicon.update")) {
+                Audience executor = WaterfallPlugin.getAdventure().sender(player);
+                executor.sendMessage(UpdateChecker.instance.updateAvailable());
+            }
+        }
+    }
+
     @Override
     public void onDisable() {
-        if(this.adventure != null) {
+        if (this.adventure != null) {
             this.adventure.close();
             this.adventure = null;
         }
     }
+
     public @NonNull BungeeAudiences adventure() {
-        if(this.adventure == null) {
+        if (this.adventure == null) {
             throw new IllegalStateException("Cannot retrieve audience provider while plugin is not enabled");
         }
         return this.adventure;
