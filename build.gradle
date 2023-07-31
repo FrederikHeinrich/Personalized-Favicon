@@ -51,9 +51,8 @@ dependencies {
     implementation "net.kyori:adventure-text-minimessage:4.14.0"
     implementation "net.kyori:adventure-platform-bungeecord:4.3.0"
 
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    implementation 'org.apache.commons:commons-lang3:3.0'
-
+    // Gson
+    implementation 'com.google.code.gson:gson:2.8.9'
 
 
 }
@@ -63,7 +62,8 @@ def getGitCommitDescription() {
 }
 
 blossom {
-    replaceToken("@version@", version +"-"+ getGitCommitDescription())
+    replaceToken("@version@", version +"-"+ getGitCommitDescription(), "src/main/java/io/freddi/personalizedfavicon/velocity/VelocityPlugin.java")
+    replaceToken("@version@", version +"-"+ getGitCommitDescription(), "src/main/java/io/freddi/personalizedfavicon/utils/UpdateChecker.java")
 }
 
 configurations {
