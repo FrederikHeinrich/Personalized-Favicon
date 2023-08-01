@@ -31,5 +31,6 @@ jobs:
         UNRELEASED: "update"
         UNRELEASED_TAG: "dev"
         DRAFT_RELEASE: false
+        RELEASE_NAME: "Development Build"
       with:
         args: build/libs/*.jar
