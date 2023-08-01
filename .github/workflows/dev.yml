@@ -28,6 +28,8 @@ jobs:
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG_PREFIX_REGEX: "*"
+        UNRELEASED: "update"
         UNRELEASED_TAG: "dev"
         RELEASE_NAME: "Development Build"
         PRE_RELEASE: "true"
