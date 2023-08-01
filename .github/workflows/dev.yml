@@ -28,10 +28,9 @@ jobs:
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        UNRELEASED: "update"
+        UNRELEASED: "delete"
         UNRELEASED_TAG: "dev"
         RELEASE_NAME: "Development Build"
-        DRAFT_RELEASE: "false"
         PRE_RELEASE: "true"
       with:
         args: build/libs/*.jar
