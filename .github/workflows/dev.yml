@@ -24,11 +24,15 @@ jobs:
 
     - name: Build
       run: ./gradlew clean shadowJar
-    - name: Latest
+    - name: Clear
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UNRELEASED: "delete"
+    - name: Latest
+      uses: anton-yurchenko/git-release@main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UNRELEASED_TAG: "dev"
         RELEASE_NAME: "Development Build"
         PRE_RELEASE: "true"
