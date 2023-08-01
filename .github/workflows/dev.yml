@@ -28,6 +28,7 @@ jobs:
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        UNRELEASED_TAG: "dev"
         UNRELEASED: "delete"
     - name: Latest
       uses: anton-yurchenko/git-release@main
