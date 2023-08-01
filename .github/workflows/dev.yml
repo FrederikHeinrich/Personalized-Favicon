@@ -30,6 +30,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UNRELEASED: "update"
         UNRELEASED_TAG: "dev"
-        DRAFT_RELEASE: false
       with:
         args: build/libs/*.jar
