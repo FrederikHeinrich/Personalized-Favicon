@@ -29,6 +29,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         UNRELEASED: "update"
-        UNRELEASED_TAG: "dev"
       with:
         args: build/libs/*.jar
