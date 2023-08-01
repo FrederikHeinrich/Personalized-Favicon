@@ -10,7 +10,12 @@
 
 ## [3.0.2] - 2023-08-01
 ## Fixed
-- Fixed error message when creating a the Config file
+- Error message when creating a Config file
+- Update Notifier
+
+## Removed
+- Update Auto-Download
+- Unused Default Favicon Option in the Config
 
 ## [3.0.1] - 2023-07-31
 
