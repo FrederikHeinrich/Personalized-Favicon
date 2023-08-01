@@ -28,8 +28,8 @@ jobs:
       uses: anton-yurchenko/git-release@main
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        DRAFT_RELEASE: true
         UNRELEASED: "update"
         UNRELEASED_TAG: "dev"
+        DRAFT_RELEASE: false
       with:
         args: build/libs/*.jar
