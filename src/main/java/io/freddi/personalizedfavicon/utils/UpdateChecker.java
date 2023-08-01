@@ -32,7 +32,7 @@ public class UpdateChecker {
     private String latestDevDownloadUrl;
 
 
-    public UpdateChecker(String currentVersion) {
+    private UpdateChecker(String currentVersion) {
         instance = this;
         this.currentVersion = (currentVersion.contains("-") ? currentVersion.split("-")[0] : currentVersion);
         this.currentBuild = (currentVersion.contains("-") ? currentVersion.split("-")[1] : "0");
@@ -57,7 +57,7 @@ public class UpdateChecker {
         releases = gson.fromJson(json, Release[].class);
         System.out.println("Releases: " + Arrays.toString(releases));
 
-        latestRelease = releases[0];
+        latestRelease = Arrays.stream(releases).filter(release -> !release.tag_name.equalsIgnoreCase("dev")).findFirst().orElse(null);
         String latestTagName = latestRelease.tag_name;
         latestVersion = (latestTagName.startsWith("v") ? latestTagName.substring(1) : latestTagName);
         latestDownloadUrl = latestRelease.assets[0].browser_download_url;
@@ -69,15 +69,22 @@ public class UpdateChecker {
     }
 
     public static void main(String[] args) {
-        UpdateChecker checker = new UpdateChecker("2.9.887-aaaaaaa");
+        UpdateChecker checker = UpdateChecker.instance;
         System.out.println("Version: "+ checker.latestVersion());
         System.out.println("Dev: " + checker.latestDevBuild());
         checker.available();
         checker.consoleCheck();
     }
 
+    public boolean useDev(){
+        return Config.instance().updateChecker().devBuilds();
+    }
     public Component updateAvailable() {
-        return Component.text("§aUpdate available: §7" + latestVersion);
+        if(useDev()){
+            return Component.text("§aDev Update available: §7" + latestDevBuild);
+        }else{
+            return Component.text("§aUpdate available: §7" + latestVersion);
+        }
     }
 
     public boolean available(){
@@ -93,31 +100,6 @@ public class UpdateChecker {
     public void consoleCheck() {
         if (available()) {
             System.out.println("Update available: " + latestVersion);
-            if(Config.instance().updateChecker().autoDownload()){
-                System.out.println("Downloading... " + (Config.instance().updateChecker().devBuilds()? "Dev" : "Release"));
-                String downloadUrl = (Config.instance().updateChecker().devBuilds() ? latestDevDownloadUrl : latestDownloadUrl);
-                try {
-                    downloadFile(downloadUrl, Config.instance().updateChecker().downloadFolder());
-                } catch (IOException e) {
-                    System.out.println("Error while downloading: " + e.getMessage());
-                }
-            }
-        }
-    }
-
-    public static void downloadFile(String fileUrl, String destinationDirectory) throws IOException {
-        URL url = new URL(fileUrl);
-        String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        String destinationPath = destinationDirectory + File.separator + fileName;
-
-        try (BufferedInputStream inputStream = new BufferedInputStream(url.openStream());
-             FileOutputStream outputStream = new FileOutputStream(destinationPath)) {
-
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer, 0, buffer.length)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
         }
     }
 
